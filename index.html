@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ReclamaFácil | Prototipo LegalTech</title>
+<style>
+:root{--navy:#142b4d;--blue:#1e4775;--teal:#169b91;--ink:#1c2c40;--muted:#68788b;--line:#dce4ec;--bg:#f4f7fa;--white:#fff;--gold:#b7791f;--red:#b84b4b;--green:#23845d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.top{background:var(--navy);color:#fff;padding:18px max(22px,calc((100% - 1120px)/2));display:flex;align-items:center;justify-content:space-between;gap:15px}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border-radius:12px;background:#fff;color:var(--navy);display:grid;place-items:center;font-size:23px;font-weight:800}.brand b{font-size:20px;letter-spacing:-.5px}.brand small{display:block;color:#c4d4e6;font-size:11px;margin-top:2px}
+.demo{border:1px solid #7990aa;color:#e5eef7;border-radius:30px;padding:7px 12px;font-size:11px;letter-spacing:.07em}
+.wrap{max-width:1120px;margin:30px auto;padding:0 20px 50px}.intro{margin:0 0 23px}.eyebrow{font-size:11px;font-weight:800;color:var(--teal);letter-spacing:.13em}.intro h1{font-size:clamp(25px,4vw,35px);margin:8px 0;color:var(--navy);letter-spacing:-1px}.intro p{margin:0;color:var(--muted);max-width:760px;line-height:1.6}
+.layout{display:grid;grid-template-columns:245px 1fr;gap:22px;align-items:start}.side,.panel{background:var(--white);border:1px solid var(--line);border-radius:16px;box-shadow:0 5px 20px #1b38500a}.side{padding:18px;position:sticky;top:18px}.side h3{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 15px}.step{display:flex;gap:11px;align-items:flex-start;padding:11px 8px;border-radius:10px;color:var(--muted);font-size:13px}.step .num{width:26px;height:26px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--line);font-weight:700;flex:none}.step.active{background:#eaf5f4;color:var(--navy);font-weight:700}.step.active .num{background:var(--teal);border-color:var(--teal);color:#fff}.step.done .num{background:#e1f2e9;border-color:#b7ddc8;color:var(--green)}
+.side-note{border-top:1px solid var(--line);margin-top:15px;padding-top:14px;font-size:11px;line-height:1.55;color:var(--muted)}
+.panel{padding:clamp(19px,3vw,32px);min-height:560px}.screen{display:none}.screen.active{display:block}.screen-head{margin-bottom:23px}.screen-head .tag{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--teal)}.screen-head h2{font-size:26px;letter-spacing:-.7px;color:var(--navy);margin:7px 0}.screen-head p{color:var(--muted);line-height:1.6;margin:0;max-width:700px}
+.progress{display:flex;gap:6px;margin:0 0 22px}.progress span{height:5px;flex:1;background:#e6ebf0;border-radius:9px}.progress span.on{background:var(--teal)}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field.full{grid-column:1/-1}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px;color:#42546a}.field input,.field select,.field textarea{width:100%;border:1px solid #d6e0e9;border-radius:9px;padding:11px 12px;background:#fff;color:var(--ink);outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px #169b911a}.hint{font-size:11px;color:var(--muted);line-height:1.5;margin-top:5px}
+.actions{display:flex;gap:10px;justify-content:space-between;margin-top:23px}.btn{border:0;border-radius:9px;padding:12px 18px;font-size:13px;font-weight:750}.primary{background:var(--navy);color:#fff}.primary:hover{background:#214a78}.secondary{background:#fff;border:1px solid var(--line);color:var(--navy)}.wide{width:100%}
+.notice{padding:14px 16px;border-radius:11px;background:#fff8e9;border:1px solid #f0dfb9;color:#77531c;font-size:12px;line-height:1.6;margin-top:16px}
+.summary{background:#f5f8fb;border:1px solid var(--line);border-radius:11px;padding:15px;margin-bottom:16px;font-size:13px;line-height:1.6}
+.checks{border:1px solid var(--line);border-radius:12px;overflow:hidden}.check{display:flex;gap:12px;padding:16px;border-bottom:1px solid var(--line)}.check:last-child{border:0}.status{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;font-weight:800;flex:none;background:#e8f4ed;color:var(--green)}.status.warn{background:#fff3dc;color:var(--gold)}.check b{font-size:13px}.check p{font-size:12px;color:var(--muted);margin:4px 0 0;line-height:1.5}
+.docs{display:grid;grid-template-columns:1fr 1fr;gap:13px}.doc{border:1px solid var(--line);border-radius:12px;padding:17px;background:#fbfcfd}.doc-icon{font-size:23px}.doc h3{font-size:14px;margin:9px 0 4px;color:var(--navy)}.doc p{font-size:11px;color:var(--muted);line-height:1.5;min-height:34px}.doc button{width:100%;margin-top:10px}
+.result{border:1px solid var(--line);border-radius:12px;padding:17px;margin-top:15px;display:none}.result.show{display:block}.result h3{font-size:14px;margin:0 0 12px}.result pre{white-space:pre-wrap;font-family:inherit;font-size:12px;line-height:1.65;color:#35465a;background:#f7f9fb;padding:14px;border-radius:8px;max-height:340px;overflow:auto}
+.route{background:#f4f8fb;border-radius:12px;padding:17px;margin-top:16px}.route h3{font-size:14px;margin:0 0 10px}.route ol{margin:0;padding-left:20px;color:var(--muted);font-size:12px;line-height:1.9}
+footer{text-align:center;font-size:11px;color:var(--muted);padding:20px}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.side{position:static}.side .steps{display:grid;grid-template-columns:repeat(3,1fr)}.step{font-size:11px;padding:7px 3px;gap:6px}.side-note{display:none}.panel{min-height:0}.docs{grid-template-columns:1fr}}
+@media(max-width:520px){.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.top{padding:14px 18px}.demo{font-size:9px}.wrap{margin:20px auto}.actions{flex-direction:column-reverse}.actions button{width:100%}}
+@media print{.top,.side,.actions,.doc button,footer{display:none!important}.wrap{margin:0;max-width:none}.layout{display:block}.panel{box-shadow:none;border:0}.screen{display:none!important}.screen.active{display:block!important}}
+</style>
+</head>
+<body>
+<header class="top"><div class="brand"><div class="logo">⚖</div><div><b>ReclamaFácil</b><small>Resolución digital de conflictos de consumo</small></div></div><span class="demo">PROTOTIPO ACADÉMICO · MVP</span></header>
+<main class="wrap">
+<div class="intro"><div class="eyebrow">LEGALTECH · COMERCIO ELECTRÓNICO</div><h1>Tu reclamación, más clara y sencilla.</h1><p>Una herramienta de orientación para consumidores que pagaron por un producto en un marketplace y no lo recibieron. Registra tu caso, revisa los criterios jurídicos y prepara tus documentos.</p></div>
+<div class="layout">
+<aside class="side"><h3>Recorrido del usuario</h3><div class="steps">
+<div class="step active" id="nav1"><span class="num">1</span><span>Datos de la compra</span></div>
+<div class="step" id="nav2"><span class="num">2</span><span>Validación jurídica</span></div>
+<div class="step" id="nav3"><span class="num">3</span><span>Documentos</span></div>
+</div><div class="side-note"><b>¿Cómo funciona?</b><br>La herramienta organiza los hechos y aplica criterios jurídicos iniciales. El resultado es un borrador que el usuario debe revisar antes de utilizarlo.</div></aside>
+<section class="panel">
+<div class="progress"><span class="on" id="bar1"></span><span id="bar2"></span><span id="bar3"></span></div>
+<section class="screen active" id="screen1">
+<div class="screen-head"><div class="tag">PASO 1 · INPUT</div><h2>Cuéntanos qué sucedió</h2><p>Completa los datos de tu compra. No necesitas conocer las normas: te guiaremos durante el proceso.</p></div>
+<div class="formgrid">
+<div class="field"><label for="name">Nombre del consumidor</label><input id="name" value="Camilo Rojas"></div>
+<div class="field"><label for="email">Correo electrónico</label><input id="email" type="email" value="camilo@email.com"></div>
+<div class="field"><label for="buy">Fecha de compra</label><input id="buy" type="date" value="2026-10-28"></div>
+<div class="field"><label for="delivery">Fecha prometida de entrega</label><input id="delivery" type="date" value="2026-11-04"></div>
+<div class="field"><label for="amount">Valor pagado (COP)</label><input id="amount" type="number" min="1" value="950000"></div>
+<div class="field"><label for="payment">Medio de pago</label><select id="payment"><option>Tarjeta de crédito</option><option>Tarjeta débito</option><option>Otro medio de pago</option></select></div>
+<div class="field"><label for="seller">Nombre del vendedor</label><input id="seller" value="Vendedor tercero"></div>
+<div class="field"><label for="market">Marketplace</label><input id="market" value="Marketplace de comercio electrónico"></div>
+<div class="field full"><label for="sellerType">¿Quién realiza la venta?</label><select id="sellerType"><option value="business">Un negocio o proveedor habitual</option><option value="person">Un particular que no vende habitualmente</option><option value="unknown">No lo sé</option></select><div class="hint">Esta pregunta ayuda a identificar si existe una relación de consumo protegida por la Ley 1480 de 2011.</div></div>
+<div class="field full"><label for="facts">Describe brevemente el problema</label><textarea id="facts" rows="3">El producto no llegó en la fecha prometida. El seguimiento del envío no muestra movimientos y el vendedor no responde mis mensajes.</textarea></div>
+<div class="field"><label for="notice">¿Cuándo conociste que el producto no sería entregado?</label><input id="notice" type="date" value="2026-11-04"><div class="hint">Dato necesario para revisar el plazo de reversión.</div></div>
+<div class="field"><label for="files">Adjunta tus soportes (opcional)</label><input id="files" type="file" multiple accept=".pdf,image/*"><div class="hint">Comprobante de pago, publicación, guía de envío o conversaciones.</div></div>
+</div>
+<div class="notice">Tus datos y archivos se utilizan únicamente en esta demostración local. No se envían a un servidor ni se presenta una reclamación real.</div>
+<div class="actions"><span></span><button class="btn primary" id="to2">Analizar mi caso →</button></div>
+</section>
+<section class="screen" id="screen2">
+<div class="screen-head"><div class="tag">PASO 2 · REGLA LEGAL</div><h2>Diagnóstico preliminar</h2><p>La plataforma contrasta los datos registrados con los criterios jurídicos definidos para este caso.</p></div>
+<div class="summary" id="summary"></div>
+<div class="checks">
+<div class="check"><span class="status" id="s1">✓</span><div><b>1. Relación de consumo B2C</b><p id="d1"></p></div></div>
+<div class="check"><span class="status" id="s2">✓</span><div><b>2. Causal de producto no recibido</b><p id="d2"></p></div></div>
+<div class="check"><span class="status warn" id="s3">!</span><div><b>3. Plazo para solicitar la reversión</b><p id="d3"></p></div></div>
+</div>
+<div class="notice"><b>Regla jurídica relevante.</b> El artículo 51 de la Ley 1480 de 2011 y el Decreto 587 de 2016 regulan la reversión del pago. La solicitud debe presentarse ante el emisor del instrumento de pago dentro de los cinco días hábiles siguientes a la fecha en que el consumidor tuvo noticia de la causal. El cómputo concreto debe verificarse según las circunstancias y el calendario aplicable.</div>
+<div class="actions"><button class="btn secondary" id="back1">← Modificar datos</button><button class="btn primary" id="to3">Preparar documentos →</button></div>
+</section>
+<section class="screen" id="screen3">
+<div class="screen-head"><div class="tag">PASO 3 · OUTPUT</div><h2>Tu paquete de reclamación</h2><p>La herramienta organiza la información del caso en dos borradores para revisión del consumidor.</p></div>
+<div class="docs">
+<div class="doc"><div class="doc-icon">📄</div><h3>Solicitud de reversión del pago</h3><p>Dirigida al emisor del instrumento de pago, sujeta a la verificación de requisitos y plazo.</p><button class="btn secondary" id="view1">Visualizar documento</button></div>
+<div class="doc"><div class="doc-icon">📑</div><h3>Reclamación directa</h3><p>Dirigida al vendedor y al portal de contacto, según el papel de cada interviniente.</p><button class="btn secondary" id="view2">Visualizar documento</button></div>
+</div>
+<div class="result" id="result"><h3 id="docTitle">Documento</h3><pre id="docBody"></pre><button class="btn primary" id="download">Descargar borrador (.txt)</button></div>
+<div class="route"><h3>¿Qué sigue después?</h3><ol><li>Revisar y completar los documentos y sus anexos.</li><li>Enviar la reclamación directa al proveedor y conservar constancia de recepción.</li><li>Si se cumplen los requisitos y el plazo, presentar la solicitud de reversión ante el emisor.</li><li>Si el conflicto persiste, evaluar la acción de protección al consumidor ante la SIC, cumpliendo los requisitos de procedibilidad.</li></ol></div>
+<div class="notice">Los documentos son borradores académicos. No se radican automáticamente, no certifican el envío y no garantizan que la reversión sea procedente. La propuesta de IA no sustituye la revisión jurídica ni una conciliación formal.</div>
+<div class="actions"><button class="btn secondary" id="back2">← Volver al diagnóstico</button><button class="btn primary" id="reset">Iniciar otro caso ↻</button></div>
+</section>
+</section>
+</div>
+<footer>ReclamaFácil · Prototipo académico de LegalTech · Derecho del Consumo · No constituye asesoría jurídica ni realiza trámites reales.</footer>
+</main>
+<script>
+(()=>{const $=id=>document.getElementById(id);let currentDoc='';
+function show(n){[1,2,3].forEach(i=>{$('screen'+i).classList.toggle('active',i===n);$('nav'+i).classList.toggle('active',i===n);$('nav'+i).classList.toggle('done',i<n);$('bar'+i).classList.toggle('on',i<=n)});}
+function v(id){return $(id).value.trim()}
+function money(x){return new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(Number(x)||0)}
+function analyze(){let type=v('sellerType'),date=v('notice'),payment=v('payment');$('summary').textContent=v('name')+' registró una compra por '+money(v('amount'))+' en '+v('market')+'. Fecha de compra: '+v('buy')+'. Entrega prometida: '+v('delivery')+'. Medio de pago: '+payment+'.';
+$('s1').className='status '+(type==='business'?'':'warn');$('s1').textContent=type==='business'?'✓':'!';
+$('d1').textContent=type==='business'?'Se reporta un vendedor que actúa como negocio o proveedor habitual. Debe verificarse esta condición.':type==='person'?'El vendedor se identifica como particular no habitual. La relación podría quedar fuera del ámbito de protección de la Ley 1480.':'No se ha determinado si el vendedor actúa como proveedor habitual. Se requiere aclararlo antes de continuar.';
+$('s2').className='status';$('s2').textContent='✓';$('d2').textContent='El consumidor reporta que el producto no fue recibido. Deben verificarse los hechos y los soportes de la operación.';
+$('s3').className='status warn';$('s3').textContent='!';$('d3').textContent='Fecha de conocimiento de la causal registrada: '+(date||'no indicada')+'. El plazo de cinco días hábiles debe calcularse y verificarse conforme al Decreto 587 de 2016. Este prototipo no determina automáticamente si está vigente o vencido.';}
+function doc(which){let common='RECLAMAFÁCIL · BORRADOR ACADÉMICO\n\nRECLAMANTE: '+v('name')+'\nVENDEDOR: '+v('seller')+'\nPLATAFORMA: '+v('market')+'\nVALOR: '+money(v('amount'))+'\nFECHA DE COMPRA: '+v('buy')+'\nFECHA PROMETIDA DE ENTREGA: '+v('delivery')+'\n\nHECHOS\n'+v('facts')+'\n\n';let title,body;if(which===1){title='Solicitud de reversión del pago';body=common+'DESTINATARIO: EMISOR DEL INSTRUMENTO DE PAGO\n\nASUNTO: Solicitud de reversión del pago por producto no recibido.\n\nFUNDAMENTO JURÍDICO\nArtículo 51 de la Ley 1480 de 2011 y Decreto 587 de 2016.\n\nSOLICITUD\nSolicito estudiar la procedencia de la reversión del pago correspondiente a la operación descrita, previa verificación de los requisitos legales y del cumplimiento del plazo aplicable.\n\nANEXOS SUGERIDOS\nComprobante de pago, publicación del producto, guía de envío y comunicaciones con el vendedor.\n\nEste documento debe completarse, revisarse y dirigirse al emisor correspondiente.';}else{title='Reclamación directa al proveedor y portal de contacto';body=common+'DESTINATARIOS: '+v('seller')+' y '+v('market')+'\n\nASUNTO: Reclamación directa por producto no recibido.\n\nSOLICITUDES\n1. Informar el estado de la operación y del envío.\n2. Dar solución a la falta de entrega y efectuar el reembolso del dinero pagado, según corresponda.\n3. Emitir respuesta a esta reclamación y dejar constancia de su recepción.\n\nFUNDAMENTO JURÍDICO\nLey 1480 de 2011, artículos 50, 53 y 58, según corresponda al papel de cada interviniente.\n\nANEXOS SUGERIDOS\nComprobante de compra, publicación, guía de envío y comunicaciones con el vendedor.\n\nEste documento debe completarse, revisarse y enviarse por un canal que permita conservar constancia.';}
+$('docTitle').textContent=title;$('docBody').textContent=body;$('result').classList.add('show');currentDoc=title+'\n\n'+body;}
+$('to2').addEventListener('click',()=>{if(!v('name')||!v('buy')||!v('delivery')||!v('amount')||Number(v('amount'))<=0||!v('seller')||!v('market')){alert('Completa los datos básicos de la compra.');return;}analyze();show(2);});
+$('back1').onclick=()=>show(1);$('to3').onclick=()=>{show(3);$('result').classList.remove('show')};$('back2').onclick=()=>show(2);
+$('view1').onclick=()=>doc(1);$('view2').onclick=()=>doc(2);
+$('download').onclick=()=>{let blob=new Blob([currentDoc],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='borrador-reclamacion.txt';a.click();URL.revokeObjectURL(url)};
+$('reset').onclick=()=>{if(confirm('¿Iniciar un caso nuevo? Se restablecerán los datos de ejemplo.'))location.reload()};
+})();
+</script>
+</body>
+</html>
